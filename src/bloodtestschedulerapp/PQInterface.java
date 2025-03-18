@@ -8,7 +8,7 @@ package bloodtestschedulerapp;
  *
  * @author <TeephopAlex MacHugh>
  */
-public interface PQInterfacce {
+public interface PQInterface {
     public void enqueue(int key, Object element);
     public int size();
     public boolean isempty();

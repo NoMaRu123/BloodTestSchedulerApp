@@ -73,34 +73,41 @@ public class DLList implements LinearListInterface {
         size++; // Increase the list size
     }
     
-    @Override
-    public void remove(int index) {
-        if (index < 1 || index > size) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
-        }
-        if (index == 1) {
-            // Removing the head
-            if (size == 1) { // Only one node exists
-                head = null;
-                last = null;
-            } else {
-                head = head.getNext();
-                head.setPrev(null);
-            }
-        } else if (index == size) {
-            // Removing the last node
-            last = last.getPrev();
-            last.setNext(null);
-        } else {
-            // Removing a node in the middle
-            setCurrent(index);
-            Node previous = curr.getPrev();
-            Node next = curr.getNext();
-            previous.setNext(next);
-            next.setPrev(previous);
-        }
-        size--; // Decrement the list size
+@Override
+public Object remove(int index) {
+    if (index < 1 || index > size) {
+        throw new IndexOutOfBoundsException("Index out of bounds");
     }
+    Object removedElement = null;
+    
+    if (index == 1) {
+        // Removing the head
+        removedElement = head.getElement();
+        if (size == 1) { // Only one node exists
+            head = null;
+            last = null;
+        } else {
+            head = head.getNext();
+            head.setPrev(null);
+        }
+    } else if (index == size) {
+        // Removing the last node
+        removedElement = last.getElement();
+        last = last.getPrev();
+        last.setNext(null);
+    } else {
+        // Removing a node in the middle
+        setCurrent(index);
+        removedElement = curr.getElement();
+        Node previous = curr.getPrev();
+        Node next = curr.getNext();
+        previous.setNext(next);
+        next.setPrev(previous);
+    }
+    size--; // Decrement the list size
+    return removedElement;
+}
+
     
     @Override
     public void printList() {

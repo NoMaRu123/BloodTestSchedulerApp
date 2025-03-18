@@ -12,7 +12,7 @@ public interface LinearListInterface {
     public boolean isEmpty();
     public int size();
     public Object get(int index);
-    public void remove(int index);
+    public Object remove(int index);
     public void add (int index, Object element);
     public void printList();
     
