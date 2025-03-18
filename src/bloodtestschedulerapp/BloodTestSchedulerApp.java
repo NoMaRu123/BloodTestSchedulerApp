@@ -1,15 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package bloodtestschedulerapp;
 
-
 public class BloodTestSchedulerApp {
-     private PQInterface priorityQueue;
+    private PQInterface priorityQueue;
     private QueueInterface noShowQueue;
     
     public BloodTestSchedulerApp() {
+        // Replace MyPQ with the actual concrete class name for your priority queue
         priorityQueue = new MyPQ();
         noShowQueue = new MyQueue();
     }
@@ -27,11 +23,22 @@ public class BloodTestSchedulerApp {
     
     // Mark a patient as a no-show
     public void markNoShow(Patient patient) {
-        // If the queue has 5 patients, remove the oldest one
+        // If the no-show queue already has 5 patients, remove the oldest one
         if (noShowQueue.size() >= 5) {
             noShowQueue.dequeue();
         }
         noShowQueue.enqueue(patient);
+    }
+    
+    // Print the current state of the priority queue
+    public void printPriorityQueue() {
+        System.out.println("Priority Queue Content:");
+        priorityQueue.printPQueue();  // This method should be implemented in your MyPQ class.
+    }
+    
+    // Get the size of the no-show queue
+    public int getNoShowQueueSize() {
+        return noShowQueue.size();
     }
     
     public static void main(String[] args) {
@@ -47,7 +54,7 @@ public class BloodTestSchedulerApp {
         
         // Display the initial state of the priority queue
         System.out.println("=== Initial Priority Queue ===");
-        scheduler.printPQueue();
+        scheduler.printPriorityQueue();
         
         // Retrieve and display the next patient (highest priority)
         Patient nextPatient = scheduler.nextPatient();
@@ -59,10 +66,9 @@ public class BloodTestSchedulerApp {
         
         // Display the updated state of the priority queue
         System.out.println("\n=== Priority Queue After Serving One Patient ===");
-        scheduler.printPQueue();
+        scheduler.printPriorityQueue();
         
         // Display the current no-show queue size
         System.out.println("\nNo-show Queue Size: " + scheduler.getNoShowQueueSize());
     }
 }
-

@@ -56,6 +56,11 @@ public class BTSApp extends javax.swing.JFrame {
         });
 
         AddBtn.setText("Add Patient");
+        AddBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Patient Name");
 
@@ -79,6 +84,11 @@ public class BTSApp extends javax.swing.JFrame {
         });
 
         NextBtn.setText("Next Patient");
+        NextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,12 +186,20 @@ public class BTSApp extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void markNoShowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markNoShowBtnActionPerformed
-        // TODO add your handling code here:
+        markNoShow();
     }//GEN-LAST:event_markNoShowBtnActionPerformed
 
     private void priorityComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priorityComboActionPerformed
-        // TODO add your handling code here:
+        priorityComboActionPerformed(evt);
     }//GEN-LAST:event_priorityComboActionPerformed
+
+    private void NextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextBtnActionPerformed
+        nextPatient();
+    }//GEN-LAST:event_NextBtnActionPerformed
+
+    private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
+        addPatient();
+    }//GEN-LAST:event_AddBtnActionPerformed
 
         // Method to add a patient based on input fields
     private void addPatient() {
@@ -205,6 +223,16 @@ public class BTSApp extends javax.swing.JFrame {
         outputArea.append("Error: Please enter valid numbers for Age and Priority.\n");
     }
 }
+    
+        // Method to retrieve and display the next patient
+    private void nextPatient() {
+        Patient p = scheduler.nextPatient();
+        if(p != null) {
+            outputArea.append("Next Patient: " + p + "\n");
+        } else {
+            outputArea.append("No patients in the queue.\n");
+        }
+    }
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
