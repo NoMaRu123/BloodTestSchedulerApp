@@ -1,5 +1,7 @@
 package bloodtestschedulerapp;
 
+import javax.swing.SwingUtilities;
+
 public class BloodTestSchedulerApp {
     private PQInterface priorityQueue;
     private QueueInterface noShowQueue;
@@ -41,34 +43,13 @@ public class BloodTestSchedulerApp {
         return noShowQueue.size();
     }
     
+    // Main method launches the GUI instead of a console-based version.
     public static void main(String[] args) {
-        // Create an instance of the scheduler
-        BloodTestSchedulerApp scheduler = new BloodTestSchedulerApp();
-        
-        // Add sample patients to the scheduler
-        scheduler.addPatient(new Patient("Alice", 2, 30, "Dr. Smith", false));
-        scheduler.addPatient(new Patient("Bob", 1, 65, "Dr. Jones", true));
-        scheduler.addPatient(new Patient("Charlie", 3, 45, "Dr. Taylor", false));
-        scheduler.addPatient(new Patient("Diana", 1, 55, "Dr. White", false));
-        scheduler.addPatient(new Patient("Eve", 2, 40, "Dr. Green", true));
-        
-        // Display the initial state of the priority queue
-        System.out.println("=== Initial Priority Queue ===");
-        scheduler.printPriorityQueue();
-        
-        // Retrieve and display the next patient (highest priority)
-        Patient nextPatient = scheduler.nextPatient();
-        System.out.println("\nNext patient to be served: " + nextPatient);
-        
-        // Mark the served patient as a no-show
-        scheduler.markNoShow(nextPatient);
-        System.out.println("Marked as no-show: " + nextPatient);
-        
-        // Display the updated state of the priority queue
-        System.out.println("\n=== Priority Queue After Serving One Patient ===");
-        scheduler.printPriorityQueue();
-        
-        // Display the current no-show queue size
-        System.out.println("\nNo-show Queue Size: " + scheduler.getNoShowQueueSize());
+        SwingUtilities.invokeLater(new Runnable(){
+            @Override
+            public void run(){
+                new BTSApp().setVisible(true);
+            }
+        });
     }
 }

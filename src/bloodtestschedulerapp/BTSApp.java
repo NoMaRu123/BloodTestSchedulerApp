@@ -4,6 +4,10 @@
  */
 package bloodtestschedulerapp;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author <TeephopAlex MacHugh>
@@ -201,30 +205,37 @@ public class BTSApp extends javax.swing.JFrame {
         addPatient();
     }//GEN-LAST:event_AddBtnActionPerformed
 
-        // Method to add a patient based on input fields
+    // Method to add a patient based on input fields
     private void addPatient() {
-    try {
-        String name = nameTF.getText().trim();
-        int age = Integer.parseInt(ageTF.getText().trim());
-        String gp = gpTF.getText().trim();
-        int priority = Integer.parseInt(priorityCombo.getSelectedItem().toString());
-        boolean fromWard = wardCheck.getState(); // Use getState() for AWT Checkbox
+        try {
+            String name = nameTF.getText().trim();
+            int age = Integer.parseInt(ageTF.getText().trim());
+            String gp = gpTF.getText().trim();
+            // Convert priority string to integer: Urgent = 1, Medium = 2, Low = 3.
+            String priorityStr = (String) priorityCombo.getSelectedItem();
+            int priority;
+            if(priorityStr.equalsIgnoreCase("Urgent")){
+                priority = 1;
+            } else if(priorityStr.equalsIgnoreCase("Medium")){
+                priority = 2;
+            } else {
+                priority = 3;
+            }
+            boolean fromWard = wardCheck.getState(); // Using AWT Checkbox methods
 
-        Patient patient = new Patient(name, priority, age, gp, fromWard);
-        scheduler.addPatient(patient);
-        outputArea.append("Added: " + patient + "\n");
+            Patient patient = new Patient(name, priority, age, gp, fromWard);
+            scheduler.addPatient(patient);
+            outputArea.append("Added: " + patient + "\n");
 
-        // Clear input fields after adding
-        nameTF.setText("");
-        ageTF.setText("");
-        gpTF.setText("");
-        wardCheck.setState(false); // Use setState() for AWT Checkbox
-    } catch (NumberFormatException ex) {
-        outputArea.append("Error: Please enter valid numbers for Age and Priority.\n");
+            // Clear input fields and optionally clear the output area
+            clearInputFields();
+            // clearOutputArea(); // Uncomment if you want to clear the output area each time
+        } catch (NumberFormatException ex) {
+            outputArea.append("Error: Please enter a valid number for Age.\n");
+        }
     }
-}
     
-        // Method to retrieve and display the next patient
+    // Method to retrieve and display the next patient
     private void nextPatient() {
         Patient p = scheduler.nextPatient();
         if(p != null) {
@@ -233,6 +244,70 @@ public class BTSApp extends javax.swing.JFrame {
             outputArea.append("No patients in the queue.\n");
         }
     }
+    
+    // Method to mark a patient as a no-show
+    private void markNoShow() {
+        // For simplicity, mark the next patient as a no-show.
+        Patient p = scheduler.nextPatient();
+        if(p != null) {
+            scheduler.markNoShow(p);
+            outputArea.append("Marked as no-show: " + p + "\n");
+        } else {
+            outputArea.append("No patient available to mark as no-show.\n");
+        }
+    }
+    
+    // Method to clear the output area
+    private void clearOutputArea() {
+        outputArea.setText("");
+    }
+    
+    // Method to clear all input fields
+    private void clearInputFields() {
+        nameTF.setText("");
+        ageTF.setText("");
+        gpTF.setText("");
+        wardCheck.setState(false);
+        priorityCombo.setSelectedIndex(0);
+    }
+    
+    // Method to load patients from a file (expects CSV: Name,Priority,Age,GP,Ward)
+    private void loadPatientsFromFile(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Expecting: Name,Priority,Age,GP,Ward
+                String[] parts = line.split(",");
+                if (parts.length < 5) continue;
+                String name = parts[0].trim();
+                String prioStr = parts[1].trim();
+                int priority;
+                if(prioStr.equalsIgnoreCase("Urgent")){
+                    priority = 1;
+                } else if(prioStr.equalsIgnoreCase("Medium")){
+                    priority = 2;
+                } else {
+                    priority = 3;
+                }
+                int age = Integer.parseInt(parts[2].trim());
+                String gp = parts[3].trim();
+                boolean ward = Boolean.parseBoolean(parts[4].trim());
+                
+                Patient patient = new Patient(name, priority, age, gp, ward);
+                scheduler.addPatient(patient);
+                outputArea.append("Loaded: " + patient + "\n");
+            }
+        } catch(IOException e) {
+            outputArea.append("Error loading patients: " + e.getMessage() + "\n");
+        }
+    }
+    
+    private void printPriorityQueue() {
+        outputArea.append("Priority Queue Content:\n");
+        scheduler.printPriorityQueue();
+    }
+    
+    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
