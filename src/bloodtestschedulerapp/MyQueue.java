@@ -9,16 +9,14 @@ public class MyQueue implements QueueInterface {
     
     @Override
     public void enqueue(Object element) {
-        // Enqueue by adding at the end (tail) of the list.
-        // Assuming DLList is 0-indexed, we add at index equal to the current size.
-        storage.add(storage.size(), element);
+        // For a one-indexed DLList, the new element should be added at index size+1.
+        storage.add(storage.size() + 1, element);
     }
     
     @Override
     public Object dequeue() {
-        // Dequeue by removing from the front (head) of the list.
-        // If the list is empty, DLList.remove(0) should handle that or return null.
-        return storage.remove(0);
+        // For a one-indexed DLList, remove the element at index 1 (the head).
+        return storage.remove(1);
     }
     
     @Override
@@ -29,5 +27,10 @@ public class MyQueue implements QueueInterface {
     @Override
     public int size() {
         return storage.size();
+    }
+    
+    // Adjusted get method: valid indices are 1 to size.
+    public Object get(int index) {
+        return storage.get(index);
     }
 }

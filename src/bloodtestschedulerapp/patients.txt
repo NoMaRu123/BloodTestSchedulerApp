@@ -1,0 +1,11 @@
+Alice, Urgent, 30, Dr. Smith, false
+Bob, Urgent, 65, Dr. Jones, true
+Charlie, Low, 45, Dr. Taylor, false
+Diana, Urgent, 55, Dr. White, false
+Eve, Medium, 40, Dr. Green, true
+Frank, Low, 50, Dr. Brown, false
+Grace, Medium, 35, Dr. Black, false
+Hannah, Urgent, 70, Dr. Adams, true
+Ian, Medium, 28, Dr. Clark, false
+Jane, Low, 60, Dr. Lewis, true
+

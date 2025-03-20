@@ -46,7 +46,7 @@ public class DLList implements LinearListInterface {
     
     @Override
     public void add(int index, Object element) {
-        if(index < 1 || index > size + 1) {
+        if(index < 0 || index > size+1) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         Node newNode = new Node(element, null, null);
@@ -123,23 +123,6 @@ public Object remove(int index) {
             System.out.println("Node " + position + ": " + current.getElement());
             current = current.getNext();
             position++;
-        }
-    }
-    
-    // New method: print the list in reverse order
-    public void printListBackward() {
-        if (last == null) {
-            System.out.println("The list is empty.");
-            return;
-        }
-        
-        System.out.println("Elements in the list (backward): ");
-        Node current = last;
-        int position = size;
-        while (current != null) {
-            System.out.println("Node " + position + ": " + current.getElement());
-            current = current.getPrev();
-            position--;
         }
     }
 }
